@@ -18,7 +18,7 @@ import java.util.List;
 public class ItemController {
     private final ItemService itemService;
     private final ItemMapper itemMapper;
-    private final String CUSTOM_HEADER = "X-Sharer-User-Id";
+    private final String customHeader = "X-Sharer-User-Id";
 
     @GetMapping("/{itemId}")
     public ItemDto getItemById(@PathVariable Long itemId) {
@@ -26,21 +26,21 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDto create(@RequestHeader(CUSTOM_HEADER) Long userId,
+    public ItemDto create(@RequestHeader(customHeader) Long userId,
                           @Validated @RequestBody ItemCreateDto createDto) {
         Item item = itemService.create(itemMapper.createDtoToModel(createDto, userId));
         return itemMapper.mapModelToDto(item);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@RequestHeader(CUSTOM_HEADER) Long userId, @PathVariable Long itemId,
+    public ItemDto update(@RequestHeader(customHeader) Long userId, @PathVariable Long itemId,
                           @Validated @RequestBody ItemUpdateDto updateDto) {
         Item item = itemService.update(itemMapper.updateDtoToModel(updateDto, userId, itemId));
         return itemMapper.mapModelToDto(item);
     }
 
     @GetMapping
-    public List<ItemDto> getItemByOwnerId(@RequestHeader(CUSTOM_HEADER) Long userId) {
+    public List<ItemDto> getItemByOwnerId(@RequestHeader(customHeader) Long userId) {
         return itemMapper.mapListModelToDto(itemService.getItemsByOwnerId(userId));
     }
 
