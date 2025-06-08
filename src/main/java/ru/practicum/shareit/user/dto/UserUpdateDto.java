@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import lombok.Data;
 @Builder
 public class UserUpdateDto {
     private String name;
-    @Email
+    @Email(message = "Электронная почта должна содержать символ @")
+    @NotBlank(message = "Электронная почта не может быть пустой")
     private String email;
 }

@@ -1,5 +1,7 @@
 package ru.practicum.shareit.user;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +21,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping("/{userId}")
-    public UserDto getUserById(@PathVariable Long userId) {
+    public UserDto getUserById(@PathVariable @Positive Long userId) {
         return userMapper.mapModelToDto(userService.getUserById(userId));
     }
 
@@ -29,20 +31,20 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto create(@RequestBody @Validated UserCreateDto userDto) {
+    public UserDto create(@RequestBody @Valid UserCreateDto userDto) {
         User user = userMapper.createDtoToModel(userDto);
         return userMapper.mapModelToDto(userService.create(user));
     }
 
     @PatchMapping("/{userId}")
-    public UserDto update(@PathVariable Long userId,
-                          @RequestBody @Validated UserUpdateDto userDto) {
+    public UserDto update(@PathVariable @Positive Long userId,
+                          @RequestBody @Valid UserUpdateDto userDto) {
         User user = userMapper.updateDtoToModel(userDto, userId);
         return userMapper.mapModelToDto(userService.update(user));
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable long userId) {
+    public void deleteUser(@PathVariable @Positive long userId) {
         userService.deleteUser(userId);
     }
 
