@@ -12,6 +12,7 @@ import lombok.Data;
 public class ItemCreateDto {
     @NotBlank(message = "Название не может быть пустым")
     private String name;
+    @NotNull
     @Size(min = 1, max = 200, message = "Максимальная длина описания — 200 символов")
     private String description;
     @NotNull
