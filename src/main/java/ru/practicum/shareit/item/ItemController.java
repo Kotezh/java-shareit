@@ -42,7 +42,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getItemByOwnerId(@RequestHeader(customHeader) @Positive Long userId) {
+    public List<ItemDto> getItemsByOwnerId(@RequestHeader(customHeader) @Positive Long userId) {
         return itemMapper.mapListModelToDto(itemService.getItemsByOwnerId(userId));
     }
 

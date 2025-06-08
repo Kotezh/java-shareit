@@ -13,7 +13,7 @@ import java.util.Map;
 @Component
 public class UserRepositoryImpl implements UserRepository {
     private long id = 1L;
-    private final Map<Long, User> userMap = new HashMap<>();
+    private final Map<Long, User> users = new HashMap<>();
 
     public long getNextId() {
         return id++;
@@ -21,10 +21,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User create(User user) {
-        checkCloneEmail(user.getEmail());
+        checkEmailExist(user.getEmail());
         long id = getNextId();
         user.setId(id);
-        userMap.put(id, user);
+        users.put(id, user);
         return user;
     }
 
@@ -32,14 +32,14 @@ public class UserRepositoryImpl implements UserRepository {
     public User update(User user) {
         long id = user.getId();
         checkUserId(id);
-        User userSaved = userMap.get(id);
+        User userSaved = users.get(id);
 
         if (user.getName() != null) {
             userSaved.setName(user.getName());
         }
         if (user.getEmail() != null) {
             String email = user.getEmail();
-            checkCloneEmail(email);
+            checkEmailExist(email);
             userSaved.setEmail(email);
         }
         return userSaved;
@@ -48,32 +48,31 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getUserById(long id) {
         checkUserId(id);
-        return userMap.get(id);
+        return users.get(id);
     }
 
     @Override
     public Collection<User> getAll() {
-        return userMap.values();
+        return users.values();
     }
 
     @Override
     public void deleteUser(long userId) {
-        userMap.remove(userId);
+        users.remove(userId);
     }
 
-    private void checkCloneEmail(String email) {
-        List<User> users = userMap.values().stream()
+    private void checkEmailExist(String email) {
+        List<User> sameEmailUsers = users.values().stream()
                 .filter(user -> user.getEmail().equals(email))
                 .toList();
-        if (!users.isEmpty()) {
+        if (!sameEmailUsers.isEmpty()) {
             throw new ConflictException("email уже существует");
         }
     }
 
     private void checkUserId(long id) {
-        if (!userMap.containsKey(id)) {
+        if (!users.containsKey(id)) {
             throw new NotFoundException("User отсутствует");
         }
     }
-
 }
