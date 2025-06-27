@@ -13,7 +13,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class ShareItApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ShareItApp.class, args);
+//		SpringApplication.run(ShareItApp.class, args);
+		try {
+			SpringApplication.run(ShareItApp.class, args);
+		} catch (Exception e) {
+			e.printStackTrace(); // Выведет все скрытые исключения
+			throw e;
+		}
 	}
 
 }

@@ -16,7 +16,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @NotNull
     @Column(name = "name", length = 100, nullable = false)
@@ -31,11 +31,10 @@ public class Item {
 
     @NotNull
     @Positive
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id")
-    private long ownerId;
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
 
     @Positive
     @Column(name = "request_id")
-    private long requestId;
+    private Long requestId;
 }

@@ -18,8 +18,8 @@ import java.io.Serializable;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    protected long id;
+    @Column(name = "id", unique = true)
+    protected Long id;
 
     @NotNull
     @Size(min = 3, max = 100)
