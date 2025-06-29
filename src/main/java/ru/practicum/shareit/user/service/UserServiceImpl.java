@@ -12,7 +12,6 @@ import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -67,15 +66,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getUsers(List<Long> ids) {
-        return userRepository.getByIds(ids).stream().filter(Objects::nonNull).map(UserMapper::mapToDto).toList();
+        return userRepository.findByIdIn(ids).stream().map(UserMapper::mapToDto).toList();
     }
-
-//    @Override
-//    public List<UserDto> getAll() {
-//        return userRepository.findAll().stream()
-//                .map(UserMapper::mapToDto)
-//                .toList();
-//    }
 
     @Override
     @Transactional(readOnly = false)

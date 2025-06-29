@@ -68,12 +68,11 @@ public class ItemController {
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto create(
+    public CommentDto createComment(
             @PathVariable Long itemId,
             @RequestHeader(value = customHeader, required = true) @Positive Long userId,
             @Valid @RequestBody CommentDto comment) {
         log.info("Создание отзыва пользователя {} на вещь {}", userId, itemId);
-        validateCommentDto(comment);
         comment.setAuthorId(userId);
         comment.setItemId(itemId);
         return commentService.create(comment);
@@ -94,16 +93,6 @@ public class ItemController {
 
         if (item.getAvailable() == null) {
             throw new ValidationException("Укажите статус о том, доступна или нет вещь для аренды");
-        }
-    }
-
-    public static void validateCommentDto(@Valid CommentDto comment) {
-        if (comment.getText().isBlank()) {
-            throw new ValidationException("Укажите текст комментария");
-        }
-
-        if (comment.getItemId() == null) {
-            throw new ValidationException("Укажите id вещи для комментирования");
         }
     }
 }

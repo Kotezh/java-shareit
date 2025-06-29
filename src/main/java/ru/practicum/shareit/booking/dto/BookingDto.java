@@ -1,5 +1,7 @@
 package ru.practicum.shareit.booking.dto;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
@@ -26,6 +28,7 @@ public class BookingDto {
     @Positive
     private Long bookerId;
 
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
 
     @NotNull
@@ -41,9 +44,4 @@ public class BookingDto {
 
     @Valid
     private UserDto booker;
-//
-//    @AssertTrue
-//    boolean isStartBeforeEnd() {
-//        return start.isBefore(end);
-//    }
 }

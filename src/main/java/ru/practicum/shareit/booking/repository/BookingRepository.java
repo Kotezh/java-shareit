@@ -13,11 +13,11 @@ import ru.practicum.shareit.booking.Status;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> getByBookerId(Long userId);
 
-    List<Booking> getByBookerIdAndStatus(Long userId, Status state);
+    List<Booking> getByBookerIdAndStatus(Long userId, Status status);
 
-    List<Booking> getByBookerIdAndItemIdAndStatus(Long userId, Long itemId, Status state);
+    List<Booking> getByBookerIdAndItemIdAndStatus(Long userId, Long itemId, Status status);
 
-    List<Booking> getByItemIdInAndStatus(List<Long> itemsIds, Status state);
+    List<Booking> getByItemIdInAndStatus(List<Long> itemsIds, Status status);
 
     @Query(value = "SELECT EXISTS (" +
             "SELECT 1 " +

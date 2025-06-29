@@ -16,9 +16,10 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "text", nullable = false)
     private String text;
 
     @Column(name = "item_id", nullable = false)
@@ -29,6 +30,6 @@ public class Comment {
     @Positive
     private Long authorId;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "created", nullable = false)
+    private LocalDateTime created;
 }

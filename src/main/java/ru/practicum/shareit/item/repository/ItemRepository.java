@@ -11,9 +11,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("SELECT i.available FROM Item i WHERE i.id = :itemId")
     Boolean findAvailableByItemId(@Param("itemId") Long itemId);
 
-    List<Item> getByIds(List<Long> itemIds);
+    List<Item> findByIdIn(List<Long> itemIds);
 
     List<Item> findByOwnerId(Long ownerId);
 
-    List<Item> findByNameAndDescriptionAndAvailable(String name, String description);
+    List<Item> findByNameContainingIgnoreCaseAndAvailableTrueOrDescriptionContainingIgnoreCaseAndAvailableTrue(String name, String description);
 }

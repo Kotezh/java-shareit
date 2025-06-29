@@ -78,7 +78,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getByIds(List<Long> ids) {
-        return itemRepository.getByIds(ids).stream().map(ItemMapper::mapToDto).toList();
+        return itemRepository.findByIdIn(ids).stream().map(ItemMapper::mapToDto).toList();
     }
 
     @Override
@@ -92,14 +92,17 @@ public class ItemServiceImpl implements ItemService {
         if (text == null || text.isEmpty()) {
             return List.of();
         }
-        List<ItemDto> res = ItemMapper.mapToDtoList(itemRepository.findByNameAndDescriptionAndAvailable(text, text));
+        List<ItemDto> res = ItemMapper.mapToDtoList(itemRepository.findByNameContainingIgnoreCaseAndAvailableTrueOrDescriptionContainingIgnoreCaseAndAvailableTrue(text, text));
         return addCommentsAndBookings(res);
     }
 
     @Override
     @Transactional
     public boolean isAvailable(Long itemId) {
-        return itemRepository.findAvailableByItemId(itemId);
+//        return itemRepository.findAvailableByItemId(itemId);
+        return itemRepository.findById(itemId)
+                .map(Item::getAvailable)
+                .orElseThrow(() -> new NotFoundException("Вещь с таким id не найдена"));
     }
 
     @Override

@@ -118,14 +118,14 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.checkItemOfBookerWithStatus(bookerId, itemId, status.ordinal());
     }
 
-    private void checkItemAndUserExist(Long bookingId, Long userId) {
-        if (!itemService.isIdExist(bookingId)) {
+    private void checkItemAndUserExist(Long itemId, Long userId) {
+        if (!itemService.isIdExist(itemId)) {
             throw new NotFoundException("Вещь с таким id не найдена");
         }
         if (!userService.checkUserId(userId)) {
             throw new NotFoundException("Пользователь с таким id не найден");
         }
-        if (!itemService.isAvailable(bookingId)) {
+        if (!itemService.isAvailable(itemId)) {
             throw new ValidationException("Эту вещь сейчас невозможно забронировать");
         }
     }
