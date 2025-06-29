@@ -168,7 +168,7 @@ public class BookingServiceImpl implements BookingService {
     private BookingDto getImpl(Long id) {
         BookingDto booking = bookingRepository.findById(id)
                 .map(BookingMapper::mapToDto)
-                .orElseThrow(() -> new NotFoundException("Бронь с таким id " + bookingId + " не найдена"));
+                .orElseThrow(() -> new NotFoundException("Бронь с таким id " + id + " не найдена"));
 
         return setStatusPast(addBookingInfo(booking));
     }
