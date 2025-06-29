@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
             throw new ConstraintViolationException("Нужно указать email пользователя");
         }
         if (checkEmailExist(user.getEmail())) {
-            throw new ConflictException("Пользователь с таким email уже существует");
+            throw new ConflictException("Пользователь с таким email " + user.getEmail() + " уже существует");
         }
         User createdUser = userRepository.save(user);
         return UserMapper.mapToDto(createdUser);
@@ -38,14 +38,14 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         User user = UserMapper.mapToUser(userDto);
         if (!userRepository.existsById(user.getId())) {
-            throw new NotFoundException("Пользователь с таким id не найден");
+            throw new NotFoundException("Пользователь с id " + user.getId() + " не найден");
         }
         if (user.getEmail() != null && checkEmailExist(user.getEmail())) {
-            throw new ConflictException("Пользователь с таким email уже существует");
+            throw new ConflictException("Пользователь с email " + user.getEmail() + " не найден");
         }
 
         User savedUser = userRepository.findById(user.getId()).orElseThrow(
-                () -> new NotFoundException("Пользователь с таким id не найден")
+                () -> new NotFoundException("Пользователь с id " + user.getId() + " не найден")
         );
         if (user.getEmail() != null) {
             String email = userDto.getEmail();
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto get(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User отсутствует"));
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User с таким id " + id + " отсутствует"));
         return UserMapper.mapToDto(user);
     }
 

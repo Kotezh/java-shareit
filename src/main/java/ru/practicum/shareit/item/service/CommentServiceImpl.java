@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto get(Long id) {
         CommentDto comment = commentRepository.findById(id)
                 .map(CommentMapper::mapToDto)
-                .orElseThrow(() -> new NotFoundException("Комментарий с таким id не найден"));
+                .orElseThrow(() -> new NotFoundException("Комментарий с таким id " + id + " не найден"));
         return addUserInfo(comment);
     }
 

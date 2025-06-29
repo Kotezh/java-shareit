@@ -46,15 +46,8 @@ public class UserController {
         userService.delete(userId);
     }
 
-//    @GetMapping
-//    public List<UserDto> getAll() {
-//        log.info("Запрос всех пользователей");
-//        return userService.getAll();
-//    }
-
     public static void validateUser(@Valid UserDto user) {
         if (user.getEmail() != null && (user.getEmail().isBlank() || !user.getEmail().contains("@")
-//                || !isValidEmail(user.getEmail()))) {
                 )) {
             throw new ValidationException("Электронная почта не может быть пустой и должна содержать символ @");
         }

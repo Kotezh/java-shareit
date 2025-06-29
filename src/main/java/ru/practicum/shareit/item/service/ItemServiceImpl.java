@@ -28,7 +28,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto get(Long itemId) {
         ItemDto itemDto = itemRepository.findById(itemId)
                 .map(ItemMapper::mapToDto)
-                .orElseThrow(() -> new NotFoundException("Вещь с таким id не найдена"));
+                .orElseThrow(() -> new NotFoundException("Вещь с таким id " + itemId + "не найдена"));
         return addComments(itemDto);
     }
 
@@ -36,7 +36,7 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public ItemDto create(ItemDto itemDto, Long userId) {
         if (!userService.checkUserId(userId)) {
-            throw new NotFoundException("Пользователь с таким id не найден");
+            throw new NotFoundException("Пользователь с id " + userId + " не найден");
         }
         Item item = ItemMapper.mapToItem(itemDto);
         return ItemMapper.mapToDto(itemRepository.save(item));
@@ -102,7 +102,7 @@ public class ItemServiceImpl implements ItemService {
 //        return itemRepository.findAvailableByItemId(itemId);
         return itemRepository.findById(itemId)
                 .map(Item::getAvailable)
-                .orElseThrow(() -> new NotFoundException("Вещь с таким id не найдена"));
+                .orElseThrow(() -> new NotFoundException("Вещь с таким id " + itemId + " не найдена"));
     }
 
     @Override
@@ -114,15 +114,15 @@ public class ItemServiceImpl implements ItemService {
         Long itemId = item.getId();
 
         if (!isIdExist(itemId)) {
-            throw new NotFoundException("Вещь с таким id не найдена");
+            throw new NotFoundException("Вещь с таким id " + itemId + " не найдена");
         }
 
         if (!userService.checkUserId(userId)) {
-            throw new NotFoundException("Пользователь с таким id не найден");
+            throw new NotFoundException("Пользователь с id " + userId + " не найден");
         }
 
         Item itemSaved = itemRepository.findById(itemId).orElseThrow(
-                () -> new NotFoundException("Вещь с таким id не найдена")
+                () -> new NotFoundException("Вещь с таким id " + itemId + " не найдена")
         );
 
         if (itemSaved.getOwnerId() == null || !itemSaved.getOwnerId().equals(userId)) {

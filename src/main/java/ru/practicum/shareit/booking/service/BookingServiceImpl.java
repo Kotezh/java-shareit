@@ -101,7 +101,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingDto> getByOwnerId(Long userId, Status status) {
         if (userId == null || !userService.checkUserId(userId)) {
-            throw new NotFoundException("Пользователь с таким id не найден");
+            throw new NotFoundException("Пользователь с id " + userId + " не найден");
         }
 
         List<Long> itemsIds = itemService.getItemsByOwnerId(userId).stream().map(ItemDto::getId).toList();
@@ -120,27 +120,27 @@ public class BookingServiceImpl implements BookingService {
 
     private void checkItemAndUserExist(Long itemId, Long userId) {
         if (!itemService.isIdExist(itemId)) {
-            throw new NotFoundException("Вещь с таким id не найдена");
+            throw new NotFoundException("Вещь с id " + itemId + " не найдена");
         }
         if (!userService.checkUserId(userId)) {
-            throw new NotFoundException("Пользователь с таким id не найден");
+            throw new NotFoundException("Пользователь с id " + userId + " не найден");
         }
         if (!itemService.isAvailable(itemId)) {
-            throw new ValidationException("Эту вещь сейчас невозможно забронировать");
+            throw new ValidationException("Эту вещь с id "  + itemId + " сейчас невозможно забронировать");
         }
     }
 
     private Booking checkBookingAndUserExistReturnBooking(Long bookingId, Long userId) {
         if (bookingId == null || !isIdExist(bookingId)) {
-            throw new NotFoundException("Бронь с таким id не найдена");
+            throw new NotFoundException("Бронь с таким id " + bookingId + " не найдена");
         }
 
         if (userId == null || !userService.checkUserId(userId)) {
-            throw new AccessDeniedException("Пользователь с таким id не найден");
+            throw new AccessDeniedException("Пользователь с таким id "  + userId + " не найден");
         }
 
         return bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new NotFoundException("Бронь с таким id не найдена"));
+                .orElseThrow(() -> new NotFoundException("Бронь с таким id " + bookingId + " не найдена"));
 
     }
 
@@ -168,7 +168,7 @@ public class BookingServiceImpl implements BookingService {
     private BookingDto getImpl(Long id) {
         BookingDto booking = bookingRepository.findById(id)
                 .map(BookingMapper::mapToDto)
-                .orElseThrow(() -> new NotFoundException("Бронь с таким id не найдена"));
+                .orElseThrow(() -> new NotFoundException("Бронь с таким id " + bookingId + " не найдена"));
 
         return setStatusPast(addBookingInfo(booking));
     }

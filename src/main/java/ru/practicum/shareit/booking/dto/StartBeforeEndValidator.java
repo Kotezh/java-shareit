@@ -14,13 +14,6 @@ public class StartBeforeEndValidator implements ConstraintValidator<StartBeforeE
 
     @Override
     public boolean isValid(BookingDto bookingDto, ConstraintValidatorContext constraintValidatorContext) {
-//        if (bookingDto.getEnd().isBefore(bookingDto.getStart())) {
-//            constraintValidatorContext.disableDefaultConstraintViolation();
-//            constraintValidatorContext.buildConstraintViolationWithTemplate(
-//                    "Время начала раньше времени окончания бронирования").addPropertyNode("Start").addConstraintViolation();
-//            return false;
-//        }
-//        return true;
         LocalDateTime start = bookingDto.getStart();
         LocalDateTime end = bookingDto.getEnd();
         if (start == null || end == null) {
