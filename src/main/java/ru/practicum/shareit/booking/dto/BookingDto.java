@@ -11,8 +11,8 @@ import ru.practicum.shareit.user.dto.UserDto;
 
 import java.time.LocalDateTime;
 
-@Setter
 @Getter
+@Setter
 @Builder(toBuilder = true)
 @StartBeforeEnd
 public class BookingDto {

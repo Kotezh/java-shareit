@@ -19,10 +19,10 @@ public class Item {
     private Long id;
 
     @NotNull
-    @Column(name = "name", length = 100, nullable = false)
+    @Column(name = "name", length = 255, nullable = false)
     private String name;
 
-    @Column(name = "description", length = 255, nullable = false)
+    @Column(name = "description", length = 1000, nullable = false)
     private String description;
 
     @NotNull

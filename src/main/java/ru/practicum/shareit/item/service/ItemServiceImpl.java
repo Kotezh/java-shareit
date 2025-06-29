@@ -25,7 +25,7 @@ public class ItemServiceImpl implements ItemService {
     private final CommentService commentService;
 
     @Override
-    public ItemDto get(long itemId) {
+    public ItemDto get(Long itemId) {
         ItemDto itemDto = itemRepository.findById(itemId)
                 .map(ItemMapper::mapToDto)
                 .orElseThrow(() -> new NotFoundException("Вещь с таким id не найдена"));
@@ -78,11 +78,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getByIds(List<Long> ids) {
-        return itemRepository.getByIdIn(ids).stream().map(ItemMapper::mapToDto).toList();
+        return itemRepository.getByIds(ids).stream().map(ItemMapper::mapToDto).toList();
     }
 
     @Override
-    public List<ItemDto> getItemsByOwnerId(long ownerId) {
+    public List<ItemDto> getItemsByOwnerId(Long ownerId) {
         return addCommentsAndBookings(ItemMapper.mapToDtoList(itemRepository.findByOwnerId(ownerId)));
     }
 
@@ -103,14 +103,14 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public boolean checkIdExist(Long itemId) {
+    public boolean isIdExist(Long itemId) {
         return itemRepository.existsById(itemId);
     }
 
     private Item checkAccess(ItemDto item, Long userId) {
         Long itemId = item.getId();
 
-        if (!checkIdExist(itemId)) {
+        if (!isIdExist(itemId)) {
             throw new NotFoundException("Вещь с таким id не найдена");
         }
 
@@ -122,7 +122,7 @@ public class ItemServiceImpl implements ItemService {
                 () -> new NotFoundException("Вещь с таким id не найдена")
         );
 
-        if (itemSaved.getOwnerId() != userId) {
+        if (itemSaved.getOwnerId() == null || !itemSaved.getOwnerId().equals(userId)) {
             throw new AccessDeniedException("Только владелец может редактировать вещь");
         }
 

@@ -19,10 +19,6 @@ public class BookingMapper {
                 .build();
     }
 
-    public static List<BookingDto> mapToDtoList(List<Booking> bookings) {
-        return bookings.stream().map(BookingMapper::mapToDto).toList();
-    }
-
     public static Booking mapToBooking(BookingDto bookingDto) {
         return Booking.builder()
                 .id(bookingDto.getId())
@@ -32,6 +28,10 @@ public class BookingMapper {
                 .itemId(bookingDto.getItemId())
                 .bookerId(bookingDto.getBookerId())
                 .build();
+    }
+
+    public static List<BookingDto> mapToDtoList(List<Booking> bookings) {
+        return bookings.stream().map(BookingMapper::mapToDto).toList();
     }
 
     public static List<Booking> mapToBookingList(List<BookingDto> bookingsDto) {

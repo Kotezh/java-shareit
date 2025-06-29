@@ -25,6 +25,4 @@ public interface BookingService {
     boolean isIdExist(Long id);
 
     boolean isItemOfBookerWithStatus(Long bookerId, Long itemId, Status status);
-
-//    List<BookingDto> getOwnerBookings(long userId, Status status);
 }

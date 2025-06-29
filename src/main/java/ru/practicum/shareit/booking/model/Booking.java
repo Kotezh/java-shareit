@@ -2,6 +2,7 @@ package ru.practicum.shareit.booking.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 import ru.practicum.shareit.booking.Status;
 
@@ -21,13 +22,13 @@ public class Booking {
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
+    @Positive
+    @Column(name = "item_id", nullable = false)
     private Long itemId;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booker_id")
+    @Positive
+    @Column(name = "booker_id", nullable = false)
     private Long bookerId;
 
     @Enumerated(EnumType.ORDINAL)

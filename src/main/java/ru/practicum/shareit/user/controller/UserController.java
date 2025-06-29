@@ -10,11 +10,6 @@ import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.service.UserService;
 
-import java.util.List;
-
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
-
 @Validated
 @Slf4j
 @RestController
@@ -24,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{userId}")
-    public UserDto getUserById(@PathVariable @Positive Long userId) {
+    public UserDto get(@PathVariable @Positive Long userId) {
         log.info("Запрос данных пользователя по id {}", userId);
         return userService.get(userId);
     }
@@ -51,11 +46,11 @@ public class UserController {
         userService.delete(userId);
     }
 
-    @GetMapping
-    public List<UserDto> getAll() {
-        log.info("Запрос всех пользователей");
-        return userService.getAll();
-    }
+//    @GetMapping
+//    public List<UserDto> getAll() {
+//        log.info("Запрос всех пользователей");
+//        return userService.getAll();
+//    }
 
     public static void validateUser(@Valid UserDto user) {
         if (user.getEmail() != null && (user.getEmail().isBlank() || !user.getEmail().contains("@")
@@ -68,12 +63,4 @@ public class UserController {
             user.setName("Нет имени");
         }
     }
-
-//    private static boolean isValidEmail(String email) {
-//        Pattern emailPattern = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$",
-//                Pattern.CASE_INSENSITIVE);
-//
-//        Matcher matcher = emailPattern.matcher(email);
-//        return matcher.matches();
-//    }
 }

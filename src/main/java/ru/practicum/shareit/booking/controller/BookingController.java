@@ -25,13 +25,13 @@ public class BookingController {
 
     @GetMapping("/{bookingId}")
     public BookingDto get(@PathVariable Long bookingId) {
-        log.info("Запроос бронирования {} по id", bookingId);
+        log.info("Запрос бронирования {} по id", bookingId);
         return bookingService.get(bookingId);
     }
 
     @PostMapping
     public BookingDto create(
-            @Validated @RequestBody BookingDto bookingDto,
+            @Valid @RequestBody BookingDto bookingDto,
             @RequestHeader(value = customHeader, required = true) @Positive Long userId) {
         log.info("Создание BookingDto {}", bookingDto);
         bookingDto.setBookerId(userId);
@@ -40,7 +40,7 @@ public class BookingController {
     }
 
     @PatchMapping("/{bookingId}")
-    public BookingDto updateStatus(
+    public BookingDto update(
             @PathVariable Long bookingId,
             @RequestHeader(value = customHeader, required = true) @Positive Long userId,
             @RequestParam(defaultValue = "true") boolean approved) {
@@ -50,18 +50,18 @@ public class BookingController {
 
     @GetMapping
     public List<BookingDto> getByUser(
-            @RequestParam(defaultValue = "ALL") Status state,
+            @RequestParam(defaultValue = "ALL") Status status,
             @RequestHeader(value = customHeader, required = true) @Positive Long userId) {
         log.info("Запрос всех бронирований пользователя {}", userId);
-        return bookingService.getByBookerId(userId, state);
+        return bookingService.getByBookerId(userId, status);
     }
 
     @GetMapping("/owner")
     public List<BookingDto> getByOwner(
-            @RequestParam(defaultValue = "ALL") Status state,
+            @RequestParam(defaultValue = "ALL") Status status,
             @RequestHeader(value = customHeader, required = false) @Positive Long userId) {
         log.info("Запрос владельца вещей бронирований ИД {}", userId);
-        return bookingService.getByOwnerId(userId, state);
+        return bookingService.getByOwnerId(userId, status);
     }
 
     public static void validateBookingDto(@Valid BookingDto bookingDto) {

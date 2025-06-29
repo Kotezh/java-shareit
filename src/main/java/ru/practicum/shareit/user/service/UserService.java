@@ -10,15 +10,15 @@ public interface UserService {
 
     UserDto update(UserDto user);
 
-    UserDto get(long id);
+    UserDto get(Long id);
 
-    List<UserDto> getAll();
+//    List<UserDto> getAll();
 
     List<UserDto> getUsers(List<Long> ids);
 
-    void delete(long userId);
+    void delete(Long userId);
 
-    boolean checkUserId(long id);
+    boolean checkUserId(Long id);
 
     boolean checkEmailExist(String email);
 }

@@ -15,7 +15,8 @@ public class CommentMapper {
                 .text(comment.getText())
                 .itemId(comment.getItemId())
                 .authorId(comment.getAuthorId())
-                .createdAt(comment.getCreatedAt()).build();
+                .createdAt(comment.getCreatedAt())
+                .build();
     }
 
     public static Comment mapToComment(CommentDto commentDto) {
@@ -24,9 +25,9 @@ public class CommentMapper {
                 .text(commentDto.getText())
                 .itemId(commentDto.getItemId())
                 .authorId(commentDto.getAuthorId())
-                .createdAt(commentDto.getCreatedAt()).build();
+                .createdAt(commentDto.getCreatedAt())
+                .build();
     }
-
 
     public static List<Comment> mapToCommentList(List<CommentDto> commentsDto) {
         return commentsDto.stream().map(CommentMapper::mapToComment).toList();

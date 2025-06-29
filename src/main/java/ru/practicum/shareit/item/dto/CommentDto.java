@@ -14,13 +14,18 @@ import lombok.*;
 @Builder
 public class CommentDto {
     private Long id;
+
     @NotEmpty
     @Size(min = 1, max = 1000)
     private String text;
+
     @Positive
     private Long itemId;
+
     @Positive
     private Long authorId;
+
     private String authorName;
+
     private LocalDateTime createdAt;
 }

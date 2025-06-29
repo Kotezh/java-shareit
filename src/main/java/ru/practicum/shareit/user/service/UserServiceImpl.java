@@ -49,7 +49,6 @@ public class UserServiceImpl implements UserService {
                 () -> new NotFoundException("Пользователь с таким id не найден")
         );
         if (user.getEmail() != null) {
-
             String email = userDto.getEmail();
             savedUser.setEmail(email);
         }
@@ -61,31 +60,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto get(long id) {
+    public UserDto get(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User отсутствует"));
         return UserMapper.mapToDto(user);
     }
 
     @Override
     public List<UserDto> getUsers(List<Long> ids) {
-        return userRepository.findAll().stream().filter(Objects::nonNull).map(UserMapper::mapToDto).toList();
+        return userRepository.getByIds(ids).stream().filter(Objects::nonNull).map(UserMapper::mapToDto).toList();
     }
 
-    @Override
-    public List<UserDto> getAll() {
-        return userRepository.findAll().stream()
-                .map(UserMapper::mapToDto)
-                .toList();
-    }
+//    @Override
+//    public List<UserDto> getAll() {
+//        return userRepository.findAll().stream()
+//                .map(UserMapper::mapToDto)
+//                .toList();
+//    }
 
     @Override
     @Transactional(readOnly = false)
-    public void delete(long userId) {
+    public void delete(Long userId) {
         userRepository.deleteById(userId);
     }
 
     @Override
-    public boolean checkUserId(long id) {
+    public boolean checkUserId(Long id) {
         return userRepository.existsById(id);
     }
 

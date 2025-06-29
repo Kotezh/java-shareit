@@ -11,15 +11,15 @@ public interface ItemService {
 
     void delete(Long itemId);
 
-    ItemDto get(long itemId);
+    ItemDto get(Long itemId);
 
     List<ItemDto> getByIds(List<Long> ids);
 
-    List<ItemDto> getItemsByOwnerId(long ownerId);
+    List<ItemDto> getItemsByOwnerId(Long ownerId);
 
     List<ItemDto> getItemsByNameOrDescription(String text);
 
-    boolean checkIdExist(Long id);
+    boolean isIdExist(Long id);
 
     boolean isAvailable(Long itemId);
 }

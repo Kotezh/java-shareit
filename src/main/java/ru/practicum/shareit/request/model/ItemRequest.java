@@ -29,7 +29,7 @@ public class ItemRequest {
     @Column(name = "requester_id", nullable = false)
     private Long requesterId;
 
-    @Column(name = "created_at")
     @NotNull
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 }

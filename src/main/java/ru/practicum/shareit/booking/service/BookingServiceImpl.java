@@ -78,13 +78,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getByBookerId(Long userId, Status state) {
+    public List<BookingDto> getByBookerId(Long userId, Status status) {
         List<BookingDto> res;
 
-        if (state.equals(Status.ALL)) {
+        if (status.equals(Status.ALL)) {
             res = BookingMapper.mapToDtoList(bookingRepository.getByBookerId(userId));
         } else {
-            res = BookingMapper.mapToDtoList(bookingRepository.getByBookerIdAndStatus(userId, state));
+            res = BookingMapper.mapToDtoList(bookingRepository.getByBookerIdAndStatus(userId, status));
         }
 
         return addBookingListInfo(res);
@@ -99,13 +99,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getByOwnerId(Long userId, Status state) {
+    public List<BookingDto> getByOwnerId(Long userId, Status status) {
         if (userId == null || !userService.checkUserId(userId)) {
             throw new NotFoundException("Пользователь с таким id не найден");
         }
 
         List<Long> itemsIds = itemService.getItemsByOwnerId(userId).stream().map(ItemDto::getId).toList();
-        return BookingMapper.mapToDtoList(bookingRepository.getByItemIdInAndStatus(itemsIds, state));
+        return BookingMapper.mapToDtoList(bookingRepository.getByItemIdInAndStatus(itemsIds, status));
     }
 
     @Override
@@ -119,7 +119,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private void checkItemAndUserExist(Long bookingId, Long userId) {
-        if (!itemService.checkIdExist(bookingId)) {
+        if (!itemService.isIdExist(bookingId)) {
             throw new NotFoundException("Вещь с таким id не найдена");
         }
         if (!userService.checkUserId(userId)) {

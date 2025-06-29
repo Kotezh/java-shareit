@@ -25,29 +25,32 @@ public class ItemController {
     private final String customHeader = "X-Sharer-User-Id";
 
     @GetMapping("/{itemId}")
-    public ItemDto getItemById(@PathVariable @Positive Long itemId) {
+    public ItemDto get(@PathVariable @Positive Long itemId) {
         log.info("Получение вещи по id {}", itemId);
         return itemService.get(itemId);
     }
 
     @PostMapping
-    public ItemDto create(@RequestHeader(customHeader) @Positive Long userId,
+    public ItemDto create(@RequestHeader(value = customHeader, required = true) @Positive Long userId,
                           @Valid @RequestBody ItemDto itemDto) {
+        log.info("Создание вещи пользователя {}", userId);
         itemDto.setOwnerId(userId);
         validateItemDto(itemDto);
         return itemService.create(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@RequestHeader(customHeader) Long userId, @PathVariable @Positive Long itemId,
+    public ItemDto update(@RequestHeader(value = customHeader, required = true) Long userId,
+                          @PathVariable @Positive Long itemId,
                           @Valid @RequestBody ItemDto itemDto) {
+        log.info("Обновление вещи по id {} пользователя {}", itemId, userId);
         itemDto.setId(itemId);
         itemDto.setOwnerId(userId);
         return itemService.update(itemDto, userId);
     }
 
     @GetMapping
-    public List<ItemDto> getItemsByOwnerId(@RequestHeader(customHeader) @Positive Long userId) {
+    public List<ItemDto> getItemsByOwnerId(@RequestHeader(value = customHeader, required = true) @Positive Long userId) {
         log.info("Запрос всех вещей пользователя {}", userId);
         return itemService.getItemsByOwnerId(userId);
     }
@@ -60,6 +63,7 @@ public class ItemController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
+        log.info("Удаление вещи {}", id);
         itemService.delete(id);
     }
 
@@ -69,6 +73,7 @@ public class ItemController {
             @RequestHeader(value = customHeader, required = true) @Positive Long userId,
             @Valid @RequestBody CommentDto comment) {
         log.info("Создание отзыва пользователя {} на вещь {}", userId, itemId);
+        validateCommentDto(comment);
         comment.setAuthorId(userId);
         comment.setItemId(itemId);
         return commentService.create(comment);
@@ -89,6 +94,16 @@ public class ItemController {
 
         if (item.getAvailable() == null) {
             throw new ValidationException("Укажите статус о том, доступна или нет вещь для аренды");
+        }
+    }
+
+    public static void validateCommentDto(@Valid CommentDto comment) {
+        if (comment.getText().isBlank()) {
+            throw new ValidationException("Укажите текст комментария");
+        }
+
+        if (comment.getItemId() == null) {
+            throw new ValidationException("Укажите id вещи для комментирования");
         }
     }
 }

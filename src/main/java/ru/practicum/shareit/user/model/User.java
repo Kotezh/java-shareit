@@ -22,13 +22,13 @@ public class User implements Serializable {
     protected Long id;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 2, max = 100)
     @Column(name = "name", length = 100, nullable = false)
     protected String name;
 
     @NotNull
     @Email(message = "Электронная почта должна содержать символ @")
-    @Size(min = 3, max = 255)
+    @Size(min = 5, max = 255)
     @Column(name = "email", length = 255, nullable = false, unique = true)
     protected String email;
 }
