@@ -1,6 +1,5 @@
 package ru.practicum.shareit.item.controller;
 
-import ch.qos.logback.classic.Logger;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;

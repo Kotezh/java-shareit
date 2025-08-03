@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking.controller;
 
-import ch.qos.logback.classic.Logger;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
