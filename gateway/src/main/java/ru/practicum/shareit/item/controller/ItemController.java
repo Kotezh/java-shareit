@@ -30,7 +30,7 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<Object> createItem(@RequestHeader(value = customHeader, required = true) @Positive Long userId,
-                                         @Valid @RequestBody ItemCreateDto itemDto) {
+                                             @Valid @RequestBody ItemCreateDto itemDto) {
         log.info("Создание вещи {} пользователя {}", itemDto, userId);
         return itemClient.createItem(userId, itemDto);
     }

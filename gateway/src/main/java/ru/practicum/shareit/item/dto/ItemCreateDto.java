@@ -11,9 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ItemCreateDto {
-    @NotNull
-    private Long id;
-
     @NotBlank
     @Size(min = 1, max = 255, message = "Максимальная длина названия — 255 символов")
     private String name;
