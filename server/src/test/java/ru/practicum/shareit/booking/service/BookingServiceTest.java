@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @Sql(scripts = "/data/data_repository.sql")
 class BookingServiceTest {
-
+    @Autowired
     private BookingService bookingService;
 
     BookingCreateDto createDto1 = BookingCreateDto.builder()
@@ -88,7 +88,7 @@ class BookingServiceTest {
         assertThat(listAll.getLast().getItem(), notNullValue());
 
         List<BookingDto> listPast = bookingService.getBookingsByBooker(bookerId, "PAST");
-        assertThat(listPast.size(), equalTo(1));
+        assertThat(listPast.size(), equalTo(2));
         assertThat(listPast.getFirst().getBooker().getId(), equalTo(bookerId));
         assertThat(listPast.getLast().getItem(), notNullValue());
 

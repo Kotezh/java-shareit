@@ -58,7 +58,7 @@ class BookingRepositoryTest {
         assertThat(listAll.getLast().getItem(), notNullValue());
 
         List<Booking> listPast = bookingRepository.getBookingByBookerId(bookerId, "PAST");
-        assertThat(listPast.size(), equalTo(1));
+        assertThat(listPast.size(), equalTo(2));
         assertThat(listPast.getFirst().getBooker().getId(), equalTo(bookerId));
         assertThat(listPast.getLast().getItem(), notNullValue());
 

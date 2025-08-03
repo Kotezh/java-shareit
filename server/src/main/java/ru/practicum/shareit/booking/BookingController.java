@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/bookings")
 public class BookingController {
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     @PostMapping
     public BookingDto bookItem(@RequestHeader("X-Sharer-User-Id") Long userId,
