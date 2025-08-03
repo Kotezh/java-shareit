@@ -42,6 +42,4 @@ public class BookingMapper {
         }
         return bookingDto;
     }
-
-
 }

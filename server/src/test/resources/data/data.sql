@@ -15,9 +15,9 @@ ALTER TABLE comments ALTER COLUMN id RESTART WITH 1;
 
 -- Пользователи
 INSERT INTO users (id, name, email) VALUES
-(1, 'Иван Петров', 'ivan.petrov@mail.com'),
-(2, 'Мария Сидорова', 'maria.sidorova@mail.ru'),
-(3, 'Алексей Иванов', 'alex.ivanov@mail.com');
+(1, 'Петр Иванов', 'petrov@mail.com'),
+(2, 'Жанна Сидорова', 'sidorova@mail.ru'),
+(3, 'Иван Иванов', 'ivanov@mail.com');
 
 -- Запросы
 INSERT INTO requests (id, description, requester_id, created) VALUES
