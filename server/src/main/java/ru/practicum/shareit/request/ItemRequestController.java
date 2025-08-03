@@ -8,7 +8,6 @@ import ru.practicum.shareit.request.service.ItemRequestService;
 
 import java.util.List;
 
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/requests")
@@ -36,5 +35,4 @@ public class ItemRequestController {
                                              @PathVariable Long requestId) {
         return itemRequestService.getItemRequestById(requestId);
     }
-
 }

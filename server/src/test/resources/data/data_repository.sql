@@ -38,7 +38,7 @@ INSERT INTO items (name, description, available, owner_id, request_id) VALUES
 ('Бензопила', 'Мощная бензопила 45см', true, 5, 5);
 
 -- Бронирования
-INSERT INTO booking (start_time, end_time, item_id, booker_id, status) VALUES
+INSERT INTO booking (start_date, end_date, item_id, booker_id, status) VALUES
 ('2025-06-10 09:00:00', '2025-06-12 18:00:00', 1, 2, 'APPROVED'),
 ('2025-06-15 10:00:00', '2025-06-20 20:00:00', 2, 3, 'WAITING'),
 ('2025-07-01 08:00:00', '2025-07-10 22:00:00', 3, 1, 'REJECTED'),

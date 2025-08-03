@@ -1,22 +1,36 @@
 
+-- Очистка таблиц
+DELETE FROM comments;
+DELETE FROM booking;
+DELETE FROM items;
+DELETE FROM requests;
+DELETE FROM users;
+
+-- Сброс последовательностей ID
+ALTER TABLE users ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE requests ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE items ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE booking ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE comments ALTER COLUMN id RESTART WITH 1;
+
 -- Пользователи
 INSERT INTO users (id, name, email) VALUES
-(1, 'Иван Петров', 'ivan.petrov@example.com'),
+(1, 'Иван Петров', 'ivan.petrov@mail.com'),
 (2, 'Мария Сидорова', 'maria.sidorova@mail.ru'),
-(3, 'Алексей Иванов', 'alex.ivanov@gmail.com');
+(3, 'Алексей Иванов', 'alex.ivanov@mail.com');
 
 -- Запросы
 INSERT INTO requests (id, description, requester_id, created) VALUES
-(1, 'Нужна дрель для ремонта', 2, '2025-06-01 10:00:00'),
-(2, 'Ищу лопату для дачи', 1, '2025-06-02 15:30:00'),
-(3, 'Требуется палатка для похода', 3, '2025-06-03 09:15:00');
+(1, 'Нужен переходник', 2, '2025-06-01 10:00:00'),
+(2, 'Нужен чайник', 1, '2025-06-02 15:30:00'),
+(3, 'Нужен фен', 3, '2025-06-03 09:15:00');
 
 -- Вещи
 INSERT INTO items (id, name, description, available, owner_id, request_id) VALUES
-(1, 'Дрель', 'Аккумуляторная дрель', true, 1, 1),
-(2, 'Лопата', 'Совковая лопата', true, 2, 2),
-(3, 'Палатка', '4-местная палатка', false, 3, 3),
-(4, 'Рогатка', 'Деревянная рогатка', true, 2, null);
+(1, 'Фонарик', 'Фонарик с батарейкой', true, 1, 1),
+(2, 'Тепловизор', 'Тепловизор с зарядным устройством', true, 2, 2),
+(3, 'Чайник', 'Чайник электрический', false, 3, 3),
+(4, 'Акб', 'Аккумулятор 60Ah', true, 2, null);
 
 -- Бронирования
 INSERT INTO booking (id, start_time, end_time, item_id, booker_id, status) VALUES
@@ -28,8 +42,8 @@ INSERT INTO booking (id, start_time, end_time, item_id, booker_id, status) VALUE
 
 -- Комментарии
 INSERT INTO comments (id, text, item_id, author_id, created) VALUES
-(1, 'Отличная дрель, спасибо!', 1, 2, '2025-06-13 11:20:00'),
-(2, 'Лопата немного старая, но работает', 2, 3, '2025-06-21 14:30:00'),
-(3, 'Палатка с небольшим дефектом', 3, 1, '2025-07-11 10:15:00'),
-(4, 'Рогатка как рогатка', 4, 1, '2025-07-12 10:15:00'),
-(5, 'Дрель норм', 1, 2, '2025-07-13 10:15:00');
+(1, 'Спасибо', 1, 2, '2025-06-13 11:20:00'),
+(2, 'Диван огонь', 2, 3, '2025-06-21 14:30:00'),
+(3, 'Не очень', 3, 1, '2025-07-11 10:15:00'),
+(4, 'Все супер', 4, 1, '2025-07-12 10:15:00'),
+(5, 'Хороший фен', 1, 2, '2025-07-13 10:15:00');

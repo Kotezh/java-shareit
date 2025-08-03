@@ -85,7 +85,6 @@ class ItemServiceTest {
                 .available(false)
                 .build();
 
-
         UserDto userCreatedDto = userService.create(userCreateDto);
         ItemDto itemCreatedDto = itemService.createItem(itemCreateDto, userCreatedDto.getId());
         ItemDto itemUpdatedDto = itemService.updateItem(updateDto, userCreatedDto.getId(), itemCreatedDto.getId());

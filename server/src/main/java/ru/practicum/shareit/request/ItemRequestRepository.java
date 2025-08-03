@@ -23,5 +23,4 @@ public interface ItemRequestRepository extends JpaRepository<ItemRequest, Long> 
             ORDER BY ir.created DESC
             """)
     List<ItemRequest> findAllByNotRequesterIdSorted(@Param("requesterId") Long requesterId);
-
 }
