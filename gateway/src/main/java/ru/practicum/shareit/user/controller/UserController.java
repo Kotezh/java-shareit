@@ -1,6 +1,5 @@
 package ru.practicum.shareit.user.controller;
 
-import ch.qos.logback.classic.Logger;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,42 +19,36 @@ import ru.practicum.shareit.user.dto.UserUpdateDto;
 @Validated
 public class UserController {
     private final UserClient userClient;
-    private Logger log;
-
-//    public UserController(UserClient userClient) {
-//        this.userClient = userClient;
-//    }
 
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody @Validated UserCreateDto userDto) {
-        log.info("Creating user {}", userDto);
+        log.info("Создание пользователя {}", userDto);
         return userClient.create(userDto);
     }
 
     @PatchMapping("/{userId}")
     public ResponseEntity<Object> update(@PathVariable Long userId,
                                          @RequestBody @Validated UserUpdateDto userDto) {
-        log.info("Update user {}, userId={}", userDto, userId);
+        log.info("Обновление данных пользователя id {} data {}", userDto, userId);
         return userClient.update(userId, userDto);
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<Object> getUserById(@PathVariable Long userId) {
-        log.info("Get userId {}", userId);
+        log.info("Запрос данных пользователя по id {}", userId);
         return userClient.getUserById(userId);
     }
 
     @GetMapping()
     public ResponseEntity<Object> getAll(@Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
-        log.info("Get getAll  size{}", size);
+        log.info("Запрос данных пользователя по size {}", size);
         return userClient.getAll(size);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable Long userId) {
-        log.info("Delete User  userId{}", userId);
+        log.info("Удаление пользователя с id {}", userId);
         userClient.deleteUser(userId);
     }
-
 }

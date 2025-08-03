@@ -24,11 +24,6 @@ import ru.practicum.shareit.booking.dto.BookingState;
 public class BookingController {
     private final BookingClient bookingClient;
     private final String customHeader = "X-Sharer-User-Id";
-    private Logger log;
-//
-//    public BookingController(BookingClient bookingClient) {
-//        this.bookingClient = bookingClient;
-//    }
 
     @GetMapping
     public ResponseEntity<Object> getBookingsByBooker(

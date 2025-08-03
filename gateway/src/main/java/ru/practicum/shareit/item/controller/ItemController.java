@@ -22,11 +22,6 @@ import ru.practicum.shareit.item.dto.ItemUpdateDto;
 public class ItemController {
     private final ItemClient itemClient;
     private final String customHeader = "X-Sharer-User-Id";
-    private Logger log;
-
-//    public ItemController(ItemClient itemClient) {
-//        this.itemClient = itemClient;
-//    }
 
     @GetMapping("/{itemId}")
     public ResponseEntity<Object> getByItemId(@PathVariable @Positive Long itemId, @RequestHeader(value = customHeader, required = true) Long userId) {
