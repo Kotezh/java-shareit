@@ -1,0 +1,105 @@
+package ru.practicum.shareit.item.service;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+import ru.practicum.shareit.exception.InternalServerErrorException;
+import ru.practicum.shareit.exception.ConflictException;
+import ru.practicum.shareit.item.dto.*;
+import ru.practicum.shareit.user.dto.UserCreateDto;
+import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.service.UserService;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@Transactional
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@SpringBootTest
+@Sql(scripts = "/data/data_repository.sql")
+class ItemServiceTest {
+    private final ItemService itemService;
+    private final UserService userService;
+
+    ItemCreateDto itemCreateDto = ItemCreateDto.builder()
+            .name("Диван")
+            .description("Диван раскладной")
+            .available(true)
+            .build();
+    UserCreateDto userCreateDto = UserCreateDto.builder()
+            .name("Катерина")
+            .email("user@mail.ru")
+            .build();
+
+
+    @Test
+    void shouldCreateComment() {
+        CommentCreateDto createDto = new CommentCreateDto();
+        createDto.setText("Супер!");
+
+        CommentDtoReturn commentDtoReturn = itemService.createComment(2, 1, createDto);
+
+        assertThat(commentDtoReturn.getText(), equalTo(createDto.getText()));
+        assertThrows(InternalServerErrorException.class, () -> itemService.createComment(99, 99, createDto));
+    }
+
+    @Test
+    void shouldReturnByItemIdWithComment() {
+        ItemCommentDto itemCommentDto = itemService.getByItemId(1, 1);
+        assertThat(itemCommentDto.getId(), equalTo(1L));
+        assertThat(itemCommentDto.getOwner(), notNullValue());
+        assertThat(itemCommentDto.getComments().size(), equalTo(1));
+    }
+
+    @Test
+    void shouldReturnAllItemsByOwnerIdWithComment() {
+        List<ItemCommentDto> itemCommentDto = itemService.getAllItems(1L);
+        assertThat(itemCommentDto.size(), equalTo(1));
+        assertThat(itemCommentDto.getFirst().getOwner().getId(), equalTo(1L));
+        assertThat(itemCommentDto.getFirst().getComments().size(), equalTo(1));
+    }
+
+    @Test
+    void shouldCreateItem() {
+        UserDto userCreatedDto = userService.create(userCreateDto);
+        ItemDto itemCreatedDto = itemService.createItem(itemCreateDto, userCreatedDto.getId());
+
+        assertThat(itemCreatedDto.getName(), equalTo(itemCreateDto.getName()));
+        assertThat(itemCreatedDto.getDescription(), equalTo(itemCreateDto.getDescription()));
+        assertThat(itemCreatedDto.getAvailable(), equalTo(itemCreateDto.getAvailable()));
+        assertThat(itemCreatedDto.getOwner(), equalTo(userCreatedDto));
+    }
+
+    @Test
+    void shouldUpdateItem() {
+        ItemUpdateDto updateDto = ItemUpdateDto.builder()
+                .name("Чайник")
+                .description("Чайник электрический")
+                .available(false)
+                .build();
+
+        UserDto userCreatedDto = userService.create(userCreateDto);
+        ItemDto itemCreatedDto = itemService.createItem(itemCreateDto, userCreatedDto.getId());
+        ItemDto itemUpdatedDto = itemService.updateItem(updateDto, userCreatedDto.getId(), itemCreatedDto.getId());
+
+        assertThrows(ConflictException.class, () -> itemService.updateItem(updateDto, 1, 3));
+        assertThat(updateDto.getName(), equalTo(itemUpdatedDto.getName()));
+        assertThat(updateDto.getDescription(), equalTo(itemUpdatedDto.getDescription()));
+        assertThat(updateDto.getAvailable(), equalTo(itemUpdatedDto.getAvailable()));
+        assertThat(itemUpdatedDto.getOwner(), equalTo(userCreatedDto));
+    }
+
+    @Test
+    void shouldReturnItemsByNameOrDescription() {
+        List<ItemDto> items = itemService.getItemsByNameOrDescription("Диван");
+        assertThat(items.size(), equalTo(1));
+        assertThat(items.getFirst().getName(), equalTo("Диван"));
+    }
+}
