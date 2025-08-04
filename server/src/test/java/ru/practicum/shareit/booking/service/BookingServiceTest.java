@@ -9,7 +9,7 @@ import org.springframework.test.context.jdbc.Sql;
 import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.booking.dto.BookingCreateDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.exception.BadRequestException;
+import ru.practicum.shareit.exception.InternalServerErrorException;
 import ru.practicum.shareit.exception.ConflictException;
 
 import java.time.LocalDateTime;
@@ -48,7 +48,7 @@ class BookingServiceTest {
         assertThat(bookingDto.getStart(), equalTo(createDto1.getStart()));
         assertThat(bookingDto.getEnd(), equalTo(createDto1.getEnd()));
         assertThat(bookingDto.getItem().getId(), equalTo(createDto1.getItemId()));
-        assertThrows(BadRequestException.class, () -> bookingService.bookItem(createDto2, 1));
+        assertThrows(InternalServerErrorException.class, () -> bookingService.bookItem(createDto2, 1));
         assertThrows(ConflictException.class, () -> bookingService.bookItem(createDto1, 1));
     }
 
@@ -59,7 +59,7 @@ class BookingServiceTest {
 
         assertThat(bookingDto1.getStatus(), equalTo(BookingStatus.APPROVED));
         assertThat(bookingDto2.getStatus(), equalTo(BookingStatus.REJECTED));
-        assertThrows(BadRequestException.class, () ->
+        assertThrows(InternalServerErrorException.class, () ->
                 bookingService.updateStatus(1, 3, true));
     }
 

@@ -9,7 +9,7 @@ import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.booking.dto.BookingCreateDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.exception.BadRequestException;
+import ru.practicum.shareit.exception.InternalServerErrorException;
 import ru.practicum.shareit.exception.ConflictException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.model.Item;
@@ -34,7 +34,7 @@ public class BookingServiceImpl implements BookingService {
         Item item = checkAndReturnItem(createDto.getItemId());
 
         if (!item.getAvailable()) {
-            throw new BadRequestException("Вещь недоступна для бронирования");
+            throw new InternalServerErrorException("Вещь недоступна для бронирования");
         }
         if (bookingRepository.existsByItemIdAndTimeRange(
                 createDto.getItemId(), createDto.getStart(), createDto.getStart())) {
@@ -52,7 +52,7 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = checkAndReturnBooking(bookingId);
 
         if (booking.getItem().getOwner().getId() != userId) {
-            throw new BadRequestException("Изменить статус бронирования может только владелец вещи");
+            throw new InternalServerErrorException("Изменить статус бронирования может только владелец вещи");
         }
         if (approve) {
             booking.setStatus(BookingStatus.APPROVED);

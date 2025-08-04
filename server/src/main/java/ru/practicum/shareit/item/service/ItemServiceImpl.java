@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.BookingRepository;
-import ru.practicum.shareit.exception.BadRequestException;
+import ru.practicum.shareit.exception.InternalServerErrorException;
 import ru.practicum.shareit.exception.ConflictException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.CommentMapper;
@@ -39,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public CommentDtoReturn createComment(long authorId, long itemId, CommentCreateDto createDto) {
         if (!bookingRepository.hasUserBookedItem(authorId, itemId)) {
-            throw new BadRequestException("Добавлять комментарий может только тот, кто брал вещь в аренду");
+            throw new InternalServerErrorException("Добавлять комментарий может только тот, кто брал вещь в аренду");
         }
         User author = checkAndReturnUser(authorId);
         Item item = checkAndReturnItem(itemId);

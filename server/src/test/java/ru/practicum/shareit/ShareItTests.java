@@ -5,7 +5,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import ru.practicum.shareit.exception.ErrorResponse;
 import ru.practicum.shareit.exception.InternalServerErrorException;
-import ru.practicum.shareit.exception.ValidationException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;;
 
@@ -26,7 +25,7 @@ class ShareItTests {
 
 	@Test
 	void validationExceptionShouldStoreMessage() {
-		ValidationException ex = new ValidationException("Некорректные данные");
+		InternalServerErrorException ex = new InternalServerErrorException("Некорректные данные");
 		assertEquals("Некорректные данные", ex.getMessage());
 	}
 
